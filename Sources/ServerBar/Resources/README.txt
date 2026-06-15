@@ -1,1 +1,0 @@
-ServerBar resources placeholder.

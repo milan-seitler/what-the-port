@@ -1,7 +1,7 @@
 import AppKit
 
 @main
-struct ServerBarApp {
+struct WhatThePortApp {
     static func main() {
         let app = NSApplication.shared
         let delegate = AppDelegate()

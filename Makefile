@@ -4,7 +4,7 @@ build:
 	swift build
 
 run:
-	swift run ServerBar
+	swift run WhatThePort
 
 package:
 	bash scripts/package_app.sh

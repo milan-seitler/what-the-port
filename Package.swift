@@ -2,16 +2,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "ServerBar",
+    name: "WhatThePort",
     platforms: [
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "ServerBar", targets: ["ServerBar"])
+        .executable(name: "WhatThePort", targets: ["WhatThePort"])
     ],
     targets: [
         .executableTarget(
-            name: "ServerBar",
+            name: "WhatThePort",
             resources: [
                 .process("Resources")
             ]

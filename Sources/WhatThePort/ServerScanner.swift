@@ -141,7 +141,7 @@ enum HTTPProbe {
 
         var request = URLRequest(url: url)
         request.timeoutInterval = 1.5
-        request.setValue("ServerBar/1.0", forHTTPHeaderField: "User-Agent")
+        request.setValue("WhatThePort/1.0", forHTTPHeaderField: "User-Agent")
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)

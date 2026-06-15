@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/readme-icon.png" width="120" height="120" alt="What The Port? app icon">
+</p>
+
 # What The Port?
 
 A tiny macOS menu bar app for answering the classic developer question:
@@ -5,6 +9,10 @@ A tiny macOS menu bar app for answering the classic developer question:
 > Wait, what is running on that port?
 
 What The Port? watches local HTTP servers on your Mac, shows what it finds, and lets you stop the ones you no longer need. It lives in the macOS menu bar, where all good tiny utilities go to avoid making a scene.
+
+<p align="center">
+  <img src="assets/app-screenshot.png" width="430" alt="What The Port? menu bar popover showing local HTTP servers">
+</p>
 
 ## Features
 
@@ -14,7 +22,8 @@ What The Port? watches local HTTP servers on your Mac, shows what it finds, and 
 - Opens or copies local server URLs.
 - Stops individual server processes.
 - Optional launch at login.
-- Native Swift/AppKit/SwiftUI app. No Electron. No webview pretending to be a toaster.
+- Pixel-terminal interface with a custom app icon and menu bar icon.
+- Native Swift/AppKit/SwiftUI app. No Electron and no webview wrapper.
 
 ## Requirements
 
@@ -31,7 +40,7 @@ swift build
 ## Run From Source
 
 ```sh
-swift run ServerBar
+swift run WhatThePort
 ```
 
 ## Package The App
@@ -47,6 +56,8 @@ outputs/What The Port?.app
 ```
 
 You can run it from there, or move it to `/Applications` for normal daily use.
+
+Packaging also generates `AppIcon.icns` from `assets/Logo.png` and bundles the menu bar icon assets from `assets/Icon.png`, `assets/Icon@2x.png`, and `assets/Icon@3x.png`.
 
 ## Install
 
@@ -75,7 +86,7 @@ The app uses `lsof` to find local TCP listeners, probes `http://127.0.0.1:<port>
 
 ## Safety
 
-Stopping a process is intentionally direct. What The Port? does not know whether your server is a throwaway dev server, an important local service, or something you started six hours ago and emotionally abandoned. Check the PID/process name before stopping.
+Stopping a process is intentionally direct. What The Port? does not know whether your server is a throwaway dev server or an important local service. Check the PID/process name before stopping.
 
 ## Development
 
@@ -88,3 +99,7 @@ make package
 ## License
 
 MIT
+
+## Third-Party Licenses
+
+The bundled Jersey 10 font is from Google Fonts and is licensed under the SIL Open Font License 1.1. See `Sources/WhatThePort/Resources/Jersey10-OFL.txt`.

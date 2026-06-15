@@ -1,4 +1,5 @@
 import AppKit
+import CoreText
 import SwiftUI
 
 @MainActor
@@ -12,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        registerBundledFonts()
         scanner.start()
         configureStatusItem()
     }
@@ -21,8 +23,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     }
 
     private func configureStatusItem() {
-        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        item.button?.image = NSImage(systemSymbolName: "network", accessibilityDescription: "ServerBar")
+        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let image = makeBundledMenuBarIcon() {
+            item.button?.image = image
+        }
+        item.button?.toolTip = "What The Port?"
         item.button?.action = #selector(togglePopover)
         item.button?.target = self
         statusItem = item
@@ -31,9 +36,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         let popover = NSPopover()
         popover.contentSize = NSSize(width: 430, height: 520)
         popover.behavior = .transient
+        popover.appearance = NSAppearance(named: .darkAqua)
         popover.delegate = self
         popover.contentViewController = NSHostingController(rootView: root)
         self.popover = popover
+    }
+
+    private func registerBundledFonts() {
+        for fontName in ["Jersey10-Regular"] {
+            guard let fontURL = Bundle.module.url(forResource: fontName, withExtension: "ttf") else {
+                continue
+            }
+            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
+        }
+    }
+
+    private func makeBundledMenuBarIcon() -> NSImage? {
+        let size = NSSize(width: 16, height: 16)
+        let image = NSImage(size: size)
+        var loadedRepresentation = false
+
+        for resourceName in ["Icon", "Icon@2x", "Icon@3x"] {
+            guard let url = Bundle.module.url(forResource: resourceName, withExtension: "png"),
+                  let data = try? Data(contentsOf: url),
+                  let representation = NSBitmapImageRep(data: data) else {
+                continue
+            }
+            representation.size = size
+            image.addRepresentation(representation)
+            loadedRepresentation = true
+        }
+
+        guard loadedRepresentation else {
+            return nil
+        }
+
+        image.size = size
+        image.isTemplate = true
+        image.accessibilityDescription = "What The Port?"
+        return image
     }
 
     @objc private func togglePopover() {
